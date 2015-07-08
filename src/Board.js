@@ -4,6 +4,11 @@
 
 (function() {
 
+  // SUM
+  var sum = function(a,b){
+    return a + b;
+  };
+
   window.Board = Backbone.Model.extend({
 
     initialize: function (params) {
@@ -74,17 +79,28 @@
     =                 TODO: fill in these Helper Functions                    =
     =========================================================================*/
 
+
+
+    // REDUCE???
+
     // ROWS - run from left to right
     // --------------------------------------------------------------
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
-      return false; // fixme
+      return _.reduce(this.get(rowIndex), sum) > 1 ? true : false;
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      return false; // fixme
+      var rows =  this.rows();
+
+      for (var i = 0; i < rows.length; i++) {
+        if (this.hasRowConflictAt(i)) {
+          return true;
+        }
+      }
+      return false;
     },
 
 
