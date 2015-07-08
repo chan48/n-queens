@@ -175,12 +175,32 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      var rows = this.rows();
+
+      var diagonal = _.map(rows, function(row, index){
+        if (row[minorDiagonalColumnIndexAtFirstRow] !== undefined){
+          var temp = minorDiagonalColumnIndexAtFirstRow;
+          minorDiagonalColumnIndexAtFirstRow--;
+          return row[temp];
+        } else {
+          return 0;
+        }
+      });
+
+
+      return _.reduce(diagonal, sum) > 1 ? true : false;
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      return false; // fixme
+      var rows =  this.rows();
+      for (var i = 0; i < rows.length; i++) {
+        if (this.hasMinorDiagonalConflictAt(i)) {
+          return true;
+        }
+      }
+      return false;
+
     }
 
     /*--------------------  End of Helper Functions  ---------------------*/
