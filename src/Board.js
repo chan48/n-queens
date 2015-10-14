@@ -82,18 +82,35 @@
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
       return _.reduce(this.get(rowIndex), sum) > 1 ? true : false;
+
+      // Optimized version
+      //
+      // var count = 0;
+      // var rowElements = this.get(rowIndex);
+      // for(var i = 0; i < rowElements.length; i++){
+      //   if (rowElements[i]) {
+      //     count++;
+      //   }
+      //   if (count > 1) {
+      //     return true;
+      //   }
+      // }
+      // return false;
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      var rows =  this.rows();
+      return !_.every(this.rows(), (el, i) => !this.hasRowConflictAt(i));
 
-      for (var i = 0; i < rows.length; i++) {
-        if (this.hasRowConflictAt(i)) {
-          return true;
-        }
-      }
-      return false;
+      // Optimized version
+      //
+      // var len =  this.rows().length;
+      //  for (var i = 0; i < len; i++) {
+      //    if (this.hasRowConflictAt(i)) {
+      //      return true;
+      //    }
+      //  }
+      //  return false;
     },
 
 
@@ -103,27 +120,39 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
+      return _.chain(this.rows())
+        .map(row => row[colIndex])
+        .reduce(sum)
+        .value() > 1 ? true : false;
 
-      var rows =  this.rows();
-
-      var column = _.map(rows, function(row){
-
-        return row[colIndex];
-      });
-      return _.reduce(column, sum) > 1 ? true : false;
-      // this.hasRowConflictAt.call(column,)
+      // Optimized version
+      //
+      // var count = 0;
+      // var rows = this.rows();
+      // for(var i = 0; i < rows.length; i++){
+      //   if (rows[i][colIndex]) {
+      //     count++;
+      //   }
+      //   if (count > 1) {
+      //     return true;
+      //   }
+      // }
+      // return false;
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
-      // var columns = [];
-      var rows =  this.rows();
-      for (var i = 0; i < rows.length; i++) {
-        if (this.hasColConflictAt(i)) {
-          return true;
-        }
-      }
-      return false;
+      return !_.every(this.rows(), (el, i) => !this.hasColConflictAt(i));
+
+      // Optimized version
+      //
+      // var len =  this.rows().length;
+      //  for (var i = 0; i < len; i++) {
+      //    if (this.hasColConflictAt(i)) {
+      //      return true;
+      //    }
+      //  }
+      //  return false;
     },
 
 
