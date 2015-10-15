@@ -1,6 +1,5 @@
-// This file is a Backbone Model (don't worry about what that means)
+// This file is a Backbone Model
 // It's part of the Board Visualizer
-// The only portions you need to work on are the helper functions (below)
 
 (function() {
 
@@ -62,16 +61,8 @@
     },
 
 
-/*
-         _             _     _
-     ___| |_ __ _ _ __| |_  | |__   ___ _ __ ___ _
-    / __| __/ _` | '__| __| | '_ \ / _ \ '__/ _ (_)
-    \__ \ || (_| | |  | |_  | | | |  __/ | |  __/_
-    |___/\__\__,_|_|   \__| |_| |_|\___|_|  \___(_)
-
- */
     /*=========================================================================
-    =                 TODO: fill in these Helper Functions                    =
+    =                             Helper Functions                            =
     =========================================================================*/
 
 
@@ -81,7 +72,7 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
-      return _.reduce(this.get(rowIndex), sum) > 1 ? true : false;
+      return _.reduce(this.get(rowIndex), (a, b) => a + b ) > 1 ? true : false;
 
       // Optimized version
       //
@@ -122,7 +113,7 @@
     hasColConflictAt: function(colIndex) {
       return _.chain(this.rows())
         .map(row => row[colIndex])
-        .reduce(sum)
+        .reduce((a, b) => a + b)
         .value() > 1 ? true : false;
 
       // Optimized version
@@ -212,9 +203,5 @@
     });
   };
 
-
-  var sum = function(a,b) {
-    return a + b;
-  };
 
 }());
